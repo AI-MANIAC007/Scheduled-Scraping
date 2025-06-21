@@ -1,0 +1,29 @@
+name: Daily Commit by 24f2001915@ds.study.iitm.ac.in
+
+on:
+  schedule:
+    # Runs every day at 09:05 IST (03:35 UTC)
+    - cron: "35 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  commit-daily:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🖊️ Add daily update (24f2001915@ds.study.iitm.ac.in)
+        run: |
+          echo "Last updated: $(date -u)" > update-log.txt
+
+      - name: ✅ Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add update-log.txt
+          git commit -m "Daily update by GitHub Actions [skip ci]" || echo "No changes to commit"
+          git push
